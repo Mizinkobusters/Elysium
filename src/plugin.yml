@@ -1,0 +1,12 @@
+main: mb.mizinkobusters.elysium.Main
+name: MiningGame
+version: 1.0.0
+author: Mizinkobusters
+
+commands:
+  xpranking:
+    permission: mining.normal
+
+permissions:
+  mining.normal:
+    default: true

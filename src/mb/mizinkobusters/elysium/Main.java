@@ -11,6 +11,8 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
 
+        Bukkit.getPluginCommand("xpranking").setExecutor(new Xpranking());
+
         String name = this.getDescription().getName();
         String ver = this.getDescription().getVersion();
         List<String> author = this.getDescription().getAuthors();
