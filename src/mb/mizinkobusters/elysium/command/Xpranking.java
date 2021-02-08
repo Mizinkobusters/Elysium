@@ -17,11 +17,18 @@ public class Xpranking implements CommandExecutor {
             return true;
         }
 
+        Player player;
         if (!(sender instanceof Player)) {
 
             sender.sendMessage("§cOnly players can execute this command.");
             return true;
 
+        } else {
+            player = (Player) sender;
+        }
+
+        if (!player.isOp()) {
+            player.sendMessage("§c権限がありません");
         }
 
         Bukkit.broadcastMessage("§f-----------");

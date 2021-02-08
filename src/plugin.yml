@@ -9,4 +9,4 @@ commands:
 
 permissions:
   mining.normal:
-    default: true
+    default: op
