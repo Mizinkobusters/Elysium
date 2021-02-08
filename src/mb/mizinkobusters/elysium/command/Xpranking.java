@@ -40,21 +40,9 @@ public class Xpranking implements CommandExecutor {
 
     public Player getHighestLeveler() {
 
-        HashMap<UUID, Integer> ranking = new HashMap<>();
-
-        for (Player players : Bukkit.getOnlinePlayers()) {
-
-            if (players.getLevel() < 1) {
-                continue;
-            }
-
-            ranking.put(players.getUniqueId(), players.getLevel());
-        }
-
-        List<UUID> playerslist = new ArrayList<>();
-
-        playerslist.addAll(ranking.keySet());
-        playerslist.sort(Comparator.reverseOrder());
+         List<Player> sortedPlayers = Bukkit.getOnlinePlayers().stream()
+                .sorted(Comparator.comparingInt(Player::getExpToLevel))
+                .collect(Collectors.toList());
 
         return Bukkit.getPlayer(playerslist.get(0));
 
