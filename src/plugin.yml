@@ -6,6 +6,8 @@ author: Mizinkobusters
 commands:
   xpranking:
     permission: mining.op
+  randomstone:
+      permission: mining.op
   start:
       permission: mining.op
 
