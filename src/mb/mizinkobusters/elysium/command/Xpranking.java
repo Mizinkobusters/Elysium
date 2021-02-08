@@ -34,7 +34,7 @@ public class Xpranking implements CommandExecutor {
         Bukkit.broadcastMessage("§7レベル: §e" + getHighestLeveler().getLevel());
         Bukkit.broadcastMessage("§f-----------");
 
-        return false;
+        return true;
 
     }
 
