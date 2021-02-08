@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Xpranking implements CommandExecutor {
 
@@ -28,6 +29,8 @@ public class Xpranking implements CommandExecutor {
             player.sendMessage("§c権限がありません");
         }
 
+        // TODO 同じ経験値数のPlayerが複数いた場合を考慮
+
         Bukkit.broadcastMessage("§f-----------");
         Bukkit.broadcastMessage("§c最も経験値が高いプレイヤー");
         Bukkit.broadcastMessage("§7名前: §a" + getHighestLeveler().getName());
@@ -44,7 +47,7 @@ public class Xpranking implements CommandExecutor {
                 .sorted(Comparator.comparingInt(Player::getExpToLevel))
                 .collect(Collectors.toList());
 
-        return Bukkit.getPlayer(playerslist.get(0));
+        return Bukkit.getPlayer(sortedPlayers.get(0).getPlayer().getUniqueId());
 
     }
 
