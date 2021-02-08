@@ -5,8 +5,8 @@ author: Mizinkobusters
 
 commands:
   xpranking:
-    permission: mining.normal
+    permission: mining.op
 
 permissions:
-  mining.normal:
+  mining.op:
     default: op
