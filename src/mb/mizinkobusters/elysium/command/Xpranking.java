@@ -38,7 +38,7 @@ public class Xpranking implements CommandExecutor {
 
     }
 
-    public Player getHighestLeveler() {
+    private Player getHighestLeveler() {
 
          List<Player> sortedPlayers = Bukkit.getOnlinePlayers().stream()
                 .sorted(Comparator.comparingInt(Player::getExpToLevel))
