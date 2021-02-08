@@ -21,6 +21,8 @@ public class Main extends JavaPlugin {
         String ver = this.getDescription().getVersion();
         List<String> author = this.getDescription().getAuthors();
 
+        saveDefaultConfig();
+
         Bukkit.getLogger().info(name + "(v." + ver + ") by " + author);
         Bukkit.getLogger().info("Now Loading...");
 
@@ -28,6 +30,7 @@ public class Main extends JavaPlugin {
 
     public void onDisable() {
 
+        reloadConfig();
         Bukkit.getLogger().info("See You Next Play!");
 
     }
