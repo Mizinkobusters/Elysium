@@ -1,8 +1,9 @@
 package mb.mizinkobusters.elysium.command;
 
-import mb.mizinkobusters.elysium.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,109 +12,72 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Randomstone implements CommandExecutor {
+public class RandomStone implements CommandExecutor {
 
-    private JavaPlugin plugin;
+    private final JavaPlugin plugin;
 
-    public Randomstone(Main plugin) {
+    public RandomStone(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
+    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
         if (!cmd.getName().equalsIgnoreCase("randomstone")) {
             return true;
         }
 
         if (!(sender instanceof Player)) {
-
             sender.sendMessage("§cOnly players can execute this command.");
             return true;
-
         }
 
         Player player = (Player) sender;
 
-        if (!player.isOp()) {
-
-            player.sendMessage("§c権限がありません");
-            return true;
-
-        }
-
         if (!Bukkit.getScheduler().getActiveWorkers().isEmpty()) {
-
             player.sendMessage("§cブロックを生成できません");
             return true;
-
         }
 
         player.sendMessage("§a生成を開始しています...");
         player.sendMessage("§7この操作には時間がかかる場合があります");
         generateBlocks();
-
         return true;
-
     }
 
     private void generateBlocks() {
-
         FileConfiguration config = plugin.getConfig();
-
-        if (!config.contains("setOriginBlock.world")) {
-            return;
-        }
-
-        if (!config.isString("setOriginBlock.world")) {
+        if (!config.contains("setOriginBlock.world") || !config.isString("setOriginBlock.world")) {
             return;
         }
 
         String world = config.getString("setOriginBlock.world");
-
-        if (world == null) {
+        if (world == null || Bukkit.getWorld(world) == null) {
             return;
         }
 
-        if (Bukkit.getWorld(world) == null) {
+        List<Block> blocks = getBlocks();
+        if (blocks == null) {
             return;
         }
-
-
-        while (getBlocks().iterator().hasNext()) {
-
-            new BukkitRunnable() {
-
-                @Override
-                public void run() {
-
-                    getBlocks().iterator().next().getLocation().getBlock().setType(getGenerateMaterial().getType());
-                    Bukkit.getLogger().info("Placed a block.");
-
-                }
-
-            }.runTaskTimer(plugin, 20,5);
-
+        for (Block block : blocks) {
+            Location loc = block.getLocation();
+            loc.getBlock().setType(getGenerateMaterial().getType());
         }
-
     }
 
     private List<Block> getBlocks() {
-
         FileConfiguration config = plugin.getConfig();
-
         if (!(config.contains("setOriginBlock.world")
                 || config.contains("setOriginBlock.x")
                 || config.contains("setOriginBlock.y")
                 || config.contains("setOriginBlock.z"))) {
             return null;
         }
-
         if (!(config.isString("setOriginBlock.world")
                 || config.isInt("setOriginBlock.x")
                 || config.isInt("setOriginBlock.y")
@@ -121,13 +85,13 @@ public class Randomstone implements CommandExecutor {
             return null;
         }
 
-        String world = config.getString("setOriginBlock.world");
-
-        if (world == null) {
+        String worldName = config.getString("setOriginBlock.world");
+        if (worldName == null) {
             return null;
         }
 
-        if (Bukkit.getWorld(world) == null) {
+        World world = Bukkit.getWorld(worldName);
+        if (world == null) {
             return null;
         }
 
@@ -148,44 +112,25 @@ public class Randomstone implements CommandExecutor {
         int highestZ = lowestZ == z1 ? z2 : z1;
 
         List<Block> blocks = new ArrayList<>();
-
         for (int x = lowestX; x <= highestX; x++) {
-
             for (int y = lowestY; y <= highestY; y++) {
-
                 for (int z = lowestZ; z <= highestZ; z++) {
-                    blocks.add(Bukkit.getWorld(world).getBlockAt(x, y, z));
+                    blocks.add(world.getBlockAt(x, y, z));
                 }
-
             }
-
         }
-
         return blocks;
-
     }
 
     private ItemStack getGenerateMaterial() {
-
         FileConfiguration config = plugin.getConfig();
-
-        if (!(config.contains("setBlockRatio.coal")
-                || config.contains("setBlockRatio.iron")
-                || config.contains("setBlockRatio.gold")
-                || config.contains("setBlockRatio.diamond")
-                || config.contains("setBlockRatio.emerald")
-                || config.contains("setBlockRatio.lapisLazuli")
-                || config.contains("setBlockRatio.redstone"))) {
-            return new ItemStack(Material.AIR);
-        }
-
-        if (!(config.isInt("setBlockRatio.coal")
-                || config.isInt("setBlockRatio.iron")
-                || config.isInt("setBlockRatio.gold")
-                || config.isInt("setBlockRatio.diamond")
-                || config.isInt("setBlockRatio.emerald")
-                || config.isInt("setBlockRatio.lapisLazuli")
-                || config.isInt("setBlockRatio.redstone"))) {
+        if (!config.contains("setOriginRation.coal") || !config.isInt("setOriginRation.coal")
+                || !config.contains("setBlockRatio.iron") || !config.isInt("setBlockRatio.iron")
+                || !config.contains("setBlockRatio.gold") || !config.isInt("setBlockRatio.gold")
+                || !config.contains("setBlockRatio.diamond") || !config.isInt("setBlockRatio.diamond")
+                || !config.contains("setBlockRatio.emerald") || !config.isInt("setBlockRatio.emerald")
+                || !config.contains("setBlockRatio.lapisLazuli") || !config.isInt("setBlockRatio.lapisLazuli")
+                || !config.contains("setBlockRatio.redstone") || !config.isInt("setBlockRatio.redstone")) {
             return new ItemStack(Material.AIR);
         }
 
@@ -196,7 +141,6 @@ public class Randomstone implements CommandExecutor {
         int ratio_emerald = config.getInt("setBlockRatio.emerald");
         int ratio_lapisLazuli = config.getInt("setBlockRatio.lapisLazuli");
         int ratio_redstone = config.getInt("setBlockRatio.redstone");
-
         if (ratio_coal + ratio_iron + ratio_gold + ratio_diamond + ratio_emerald + ratio_lapisLazuli + ratio_redstone != 100) {
             return new ItemStack(Material.AIR);
         }
@@ -239,6 +183,5 @@ public class Randomstone implements CommandExecutor {
         }
 
         return new ItemStack(Material.STONE);
-
     }
 }
