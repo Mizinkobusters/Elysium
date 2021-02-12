@@ -61,59 +61,54 @@ public class Start implements CommandExecutor {
         // Bukkit.dispatchCommand(player, "randomstone");
 
         new BukkitRunnable() {
-            int i = 3;
+            int timer = 0;
+            int i = 0;
 
             @Override
             public void run() {
-                if (i < 0) {
+                if (60 * 30 + 5 < timer) {
                     this.cancel();
                     return;
                 }
 
-                if (i == 0) {
+                if (1 <= timer && timer <= 3) {
+                    i = 3;
+                    Bukkit.broadcastMessage(i + "...");
+                    i--;
+                }
+
+                if (timer == 4) {
                     for (Player players : Bukkit.getOnlinePlayers()) {
                         players.sendTitle("スタート!", "", 5, 100, 5);
                         players.playSound(players.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
                     }
                     return;
                 }
-                Bukkit.broadcastMessage(i + "...");
-                i--;
-            }
-        }.runTaskTimer(plugin, 0, 20);
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                RankingUtil.showHighestPlayer();
-                for (Player players : Bukkit.getOnlinePlayers()) {
-                    players.sendTitle("残り20分", "", 5, 100, 5);
-                }
-            }
-        }.runTaskLater(plugin, 12000);
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                RankingUtil.showHighestPlayer();
-                for (Player players : Bukkit.getOnlinePlayers()) {
-                    players.sendTitle("残り10分", "", 5, 100, 5);
-                }
-            }
-        }.runTaskLater(plugin, 24000);
-
-        new BukkitRunnable() {
-            int i = 5;
-            int n = 11;
-
-            @Override
-            public void run() {
-                if (n < 0) {
-                    this.cancel();
-                    return;
+                if (timer == 60 * 10) {
+                    RankingUtil.showHighestPlayer();
+                    for (Player players : Bukkit.getOnlinePlayers()) {
+                        players.sendTitle("残り20分", "", 5, 100, 5);
+                    }
                 }
 
-                if (i == 0) {
+                if (timer == 60 * 20) {
+                    RankingUtil.showHighestPlayer();
+                    for (Player players : Bukkit.getOnlinePlayers()) {
+                        players.sendTitle("残り10分", "", 5, 100, 5);
+                    }
+                }
+
+                if (60 * 30 - 5 <= timer && timer <= 60 * 30 - 1) {
+                    i = 5;
+                    for (Player players : Bukkit.getOnlinePlayers()) {
+                        players.sendMessage(i + "...");
+                        players.playSound(players.getLocation(), Sound.BLOCK_ANVIL_FALL, 1, 1);
+                    }
+                    i--;
+                }
+
+                if (timer == 60 * 30) {
                     for (Player players : Bukkit.getOnlinePlayers()) {
                         players.sendTitle("終了!!", "", 5, 100, 5);
                         players.playSound(players.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
@@ -122,7 +117,8 @@ public class Start implements CommandExecutor {
                     }
                 }
 
-                if (n == 0) {
+                if (timer == 60 * 30 + 5) {
+                    i = 5;
                     Player highestLeveler = RankingUtil.getHighestLeveler();
                     for (Player players : Bukkit.getOnlinePlayers()) {
                         players.playSound(players.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
@@ -131,18 +127,12 @@ public class Start implements CommandExecutor {
                         players.sendMessage("レベル:" + highestLeveler.getLevel());
                         players.sendMessage("-------------------");
                     }
+                    i--;
                 }
 
-                for (Player players : Bukkit.getOnlinePlayers()) {
-                    if (0 < i) {
-                        players.sendMessage(i + "...");
-                        players.playSound(players.getLocation(), Sound.BLOCK_ANVIL_FALL, 1, 1);
-                    }
-                }
-                i--;
-                n--;
+                timer++;
             }
-        }.runTaskTimer(plugin, 35900, 20);
+        }.runTaskTimer(plugin, 0, 20);
 
         return true;
     }
