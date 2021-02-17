@@ -71,8 +71,11 @@ public class Start implements CommandExecutor {
                     return;
                 }
 
-                if (1 <= timer && timer <= 3) {
+                if (timer == 1) {
                     i = 3;
+                }
+
+                if (1 <= timer && timer <= 3) {
                     Bukkit.broadcastMessage(i + "...");
                     i--;
                 }
@@ -82,7 +85,6 @@ public class Start implements CommandExecutor {
                         players.sendTitle("スタート!", "", 5, 100, 5);
                         players.playSound(players.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
                     }
-                    return;
                 }
 
                 if (timer == 60 * 10) {
@@ -99,8 +101,11 @@ public class Start implements CommandExecutor {
                     }
                 }
 
-                if (60 * 30 - 5 <= timer && timer <= 60 * 30 - 1) {
+                if (timer == 60 * 30 - 5) {
                     i = 5;
+                }
+
+                if (60 * 30 - 5 <= timer && timer <= 60 * 30 - 1) {
                     for (Player players : Bukkit.getOnlinePlayers()) {
                         players.sendMessage(i + "...");
                         players.playSound(players.getLocation(), Sound.BLOCK_ANVIL_FALL, 1, 1);
@@ -118,16 +123,14 @@ public class Start implements CommandExecutor {
                 }
 
                 if (timer == 60 * 30 + 5) {
-                    i = 5;
                     Player highestLeveler = RankingUtil.getHighestLeveler();
                     for (Player players : Bukkit.getOnlinePlayers()) {
                         players.playSound(players.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                         players.sendMessage("-------------------");
-                        players.sendMessage("名前:" + highestLeveler.getName());
-                        players.sendMessage("レベル:" + highestLeveler.getLevel());
+                        players.sendMessage("名前: " + highestLeveler.getName());
+                        players.sendMessage("レベル: " + highestLeveler.getLevel());
                         players.sendMessage("-------------------");
                     }
-                    i--;
                 }
 
                 timer++;
