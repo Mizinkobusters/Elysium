@@ -6,15 +6,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class RandomStone implements CommandExecutor {
-
-    private final JavaPlugin plugin;
-
-    public RandomStone(JavaPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -34,7 +27,7 @@ public class RandomStone implements CommandExecutor {
             return true;
         }
 
-        GenerateBlockThread thread = new GenerateBlockThread(plugin);
+        GenerateBlockThread thread = new GenerateBlockThread();
 
         player.sendMessage("§a生成を開始しています...");
         player.sendMessage("§7この操作には時間がかかる場合があります");

@@ -1,6 +1,7 @@
 package mb.mizinkobusters.elysium.command;
 
 import mb.mizinkobusters.elysium.GenerateBlockThread;
+import mb.mizinkobusters.elysium.Main;
 import mb.mizinkobusters.elysium.RankingUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -12,18 +13,11 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Start implements CommandExecutor {
-
-    private final JavaPlugin plugin;
-
-    public Start(JavaPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -58,7 +52,7 @@ public class Start implements CommandExecutor {
             players.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000000, 127, false, false));
         }
 
-        GenerateBlockThread thread = new GenerateBlockThread(plugin);
+        GenerateBlockThread thread = new GenerateBlockThread();
         thread.generate();
 
         new BukkitRunnable() {
@@ -136,7 +130,7 @@ public class Start implements CommandExecutor {
 
                 timer++;
             }
-        }.runTaskTimer(plugin, 0, 20);
+        }.runTaskTimer(Main.getInstance(), 0, 20);
 
         return true;
     }
