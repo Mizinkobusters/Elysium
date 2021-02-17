@@ -1,5 +1,6 @@
 package mb.mizinkobusters.elysium.command;
 
+import mb.mizinkobusters.elysium.GenerateBlockThread;
 import mb.mizinkobusters.elysium.RankingUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -57,8 +58,8 @@ public class Start implements CommandExecutor {
             players.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000000, 127, false, false));
         }
 
-        // 動作不良のためとりあえずHide
-        // Bukkit.dispatchCommand(player, "randomstone");
+        GenerateBlockThread thread = new GenerateBlockThread(plugin);
+        thread.generate();
 
         new BukkitRunnable() {
             int timer = 0;
