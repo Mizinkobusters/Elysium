@@ -37,11 +37,11 @@ public class Start implements CommandExecutor {
         }
 
         ItemStack tool = new ItemStack(Material.IRON_PICKAXE);
+        tool.addEnchantment(Enchantment.DIG_SPEED, 2);
         ItemMeta meta = tool.getItemMeta();
         if (meta == null) {
             return true;
         }
-        tool.addEnchantment(Enchantment.DIG_SPEED, 2);
         meta.setUnbreakable(true);
         tool.setItemMeta(meta);
 
@@ -56,76 +56,62 @@ public class Start implements CommandExecutor {
         thread.generate();
 
         new BukkitRunnable() {
-            int timer = 60 * 30;
-            int i = 0;
+            int timer = 30 * 60 + 5;
+            int countdown = 0;
 
             @Override
             public void run() {
-                if (timer < -5) {
-                    this.cancel();
-                    return;
-                }
-
-                if (timer == 1) {
-                    i = 3;
-                }
-
-                if (60 * 30 - 3 <= timer && timer <= 60 * 30 - 1) {
-                    Bukkit.broadcastMessage(i + "...");
-                    i--;
-                }
-
-                if (timer == 60 * 30 - 4) {
-                    for (Player players : Bukkit.getOnlinePlayers()) {
-                        players.sendTitle("スタート!", "", 5, 100, 5);
-                        players.playSound(players.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
-                    }
-                }
-
-                if (timer == 60 * 20) {
-                    RankingUtil.showHighestPlayer();
-                    for (Player players : Bukkit.getOnlinePlayers()) {
-                        players.sendTitle("残り20分", "", 5, 100, 5);
-                    }
-                }
-
-                if (timer == 60 * 10) {
-                    RankingUtil.showHighestPlayer();
-                    for (Player players : Bukkit.getOnlinePlayers()) {
-                        players.sendTitle("残り10分", "", 5, 100, 5);
-                    }
-                }
-
-                if (timer == 5) {
-                    i = 5;
-                }
-
-                if (1 <= timer && timer <= 5) {
-                    for (Player players : Bukkit.getOnlinePlayers()) {
-                        players.sendMessage(i + "...");
-                        players.playSound(players.getLocation(), Sound.BLOCK_ANVIL_FALL, 1, 1);
-                    }
-                    i--;
-                }
-
-                if (timer == 0) {
-                    for (Player players : Bukkit.getOnlinePlayers()) {
-                        players.sendTitle("終了!!", "", 5, 100, 5);
-                        players.playSound(players.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
-                        players.sendMessage("-------------------");
-                        players.sendMessage("今回の優勝者は...");
-                    }
-                }
-
-                if (timer == -5) {
-                    Player highestLeveler = RankingUtil.getHighestLeveler();
-                    for (Player players : Bukkit.getOnlinePlayers()) {
-                        players.playSound(players.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-                        players.sendMessage("-------------------");
-                        players.sendMessage("名前: " + highestLeveler.getName());
-                        players.sendMessage("レベル: " + highestLeveler.getLevel());
-                        players.sendMessage("-------------------");
-                    }
+                switch (timer) {
+                    case 30 * 60 + 5:
+                        countdown = 3;
+                    case 30 * 60 + 5 - 1:
+                    case 30 * 60 + 5 - 2:
+                        Bukkit.broadcastMessage(countdown + "...");
+                        countdown--;
+                        break;
+                    case 30 * 60 + 5 - 3:
+                        for (Player players : Bukkit.getOnlinePlayers()) {
+                            players.sendTitle("スタート!", "", 5, 100, 5);
+                            players.playSound(players.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+                        }
+                        break;
+                    case 20 * 60 + 5:
+                    case 10 * 60 + 5:
+                        RankingUtil.showHighestPlayer();
+                        for (Player players : Bukkit.getOnlinePlayers()) {
+                            players.sendTitle("残り" + (timer / 60) + "分", "", 5, 100, 5);
+                        }
+                        break;
+                    case 5 + 5:
+                        countdown = 5;
+                    case 5 + 4:
+                    case 5 + 3:
+                    case 5 + 2:
+                    case 5 + 1:
+                        for (Player players : Bukkit.getOnlinePlayers()) {
+                            players.sendMessage(countdown + "...");
+                            players.playSound(players.getLocation(), Sound.BLOCK_ANVIL_FALL, 1, 1);
+                        }
+                        countdown--;
+                        break;
+                    case 5:
+                        for (Player players : Bukkit.getOnlinePlayers()) {
+                            players.sendTitle("終了!!", "", 5, 100, 5);
+                            players.playSound(players.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+                            players.sendMessage("-------------------");
+                            players.sendMessage("今回の優勝者は...");
+                        }
+                        break;
+                    case 0:
+                        Player highestLeveler = RankingUtil.getHighestLeveler();
+                        for (Player players : Bukkit.getOnlinePlayers()) {
+                            players.playSound(players.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+                            players.sendMessage("-------------------");
+                            players.sendMessage("名前: " + highestLeveler.getName());
+                            players.sendMessage("レベル: " + highestLeveler.getLevel());
+                            players.sendMessage("-------------------");
+                        }
+                        break;
                 }
 
                 timer--;
