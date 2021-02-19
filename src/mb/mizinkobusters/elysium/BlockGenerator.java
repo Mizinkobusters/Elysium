@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class GenerateBlockThread {
+public class BlockGenerator {
 
     public void generate() {
         List<Block> blocks = getBlocks();

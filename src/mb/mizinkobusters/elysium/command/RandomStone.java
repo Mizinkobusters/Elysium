@@ -1,6 +1,6 @@
 package mb.mizinkobusters.elysium.command;
 
-import mb.mizinkobusters.elysium.GenerateBlockThread;
+import mb.mizinkobusters.elysium.BlockGenerator;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,7 +27,7 @@ public class RandomStone implements CommandExecutor {
             return true;
         }
 
-        GenerateBlockThread thread = new GenerateBlockThread();
+        BlockGenerator thread = new BlockGenerator();
 
         player.sendMessage("§a生成を開始しています...");
         player.sendMessage("§7この操作には時間がかかる場合があります");

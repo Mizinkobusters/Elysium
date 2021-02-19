@@ -1,6 +1,6 @@
 package mb.mizinkobusters.elysium.command;
 
-import mb.mizinkobusters.elysium.GenerateBlockThread;
+import mb.mizinkobusters.elysium.BlockGenerator;
 import mb.mizinkobusters.elysium.Main;
 import mb.mizinkobusters.elysium.RankingUtil;
 import org.bukkit.Bukkit;
@@ -52,7 +52,7 @@ public class Start implements CommandExecutor {
             players.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000000, 127, false, false));
         }
 
-        GenerateBlockThread thread = new GenerateBlockThread();
+        BlockGenerator thread = new BlockGenerator();
         thread.generate();
 
         new BukkitRunnable() {
