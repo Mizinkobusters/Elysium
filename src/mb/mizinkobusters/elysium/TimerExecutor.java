@@ -8,6 +8,8 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.List;
+
 public class TimerExecutor extends BukkitRunnable {
 
     BossBar bar = Bukkit.createBossBar("", BarColor.WHITE, BarStyle.SEGMENTED_10);
@@ -63,12 +65,12 @@ public class TimerExecutor extends BukkitRunnable {
             resultCountdown--;
         }
         if (resultCountdown == 0) {
-            Player highestLeveler = RankingUtil.getHighestLeveler();
+            List<Player> highestLevelers = RankingUtil.getHighestLevelers();
             Bukkit.getOnlinePlayers().forEach(players -> {
                 players.playSound(players.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                 players.sendMessage("-------------------");
-                players.sendMessage("名前: " + highestLeveler.getName());
-                players.sendMessage("レベル: " + highestLeveler.getLevel());
+                players.sendMessage("名前: " + highestLevelers.iterator().next().getPlayer());
+                players.sendMessage("レベル: " + highestLevelers.get(0).getExpToLevel());
                 players.sendMessage("-------------------");
             });
         }
