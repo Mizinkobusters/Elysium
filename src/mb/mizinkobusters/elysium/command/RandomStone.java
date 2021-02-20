@@ -27,11 +27,11 @@ public class RandomStone implements CommandExecutor {
             return true;
         }
 
-        BlockGenerator thread = new BlockGenerator();
+        BlockGenerator generator = new BlockGenerator();
 
         player.sendMessage("§a生成を開始しています...");
         player.sendMessage("§7この操作には時間がかかる場合があります");
-        thread.generate();
+        generator.generate();
         return true;
     }
 }

@@ -43,15 +43,15 @@ public class Start implements CommandExecutor {
         meta.setUnbreakable(true);
         tool.setItemMeta(meta);
 
-        for (Player players : Bukkit.getOnlinePlayers()) {
+        Bukkit.getOnlinePlayers().forEach(players -> {
             players.getInventory().addItem(tool);
             players.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 127, false, false));
             players.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 1000000, 127, false, false));
             players.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000000, 127, false, false));
-        }
+        });
 
-        BlockGenerator thread = new BlockGenerator();
-        thread.generate();
+        BlockGenerator generator = new BlockGenerator();
+        generator.generate();
 
         new TimerExecutor().runTaskTimer(Main.getInstance(), 20, 20);
 
