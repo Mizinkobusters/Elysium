@@ -5,8 +5,15 @@ author: Mizinkobusters
 
 commands:
   xpranking:
-    permission: mining.normal
+    permission: mining.op
+    permission-message: "§cYou don't have permission todo that."
+  randomstone:
+    permission: mining.op
+    permission-message: "§cYou don't have permission todo that."
+  start:
+    permission: mining.op
+    permission-message: "§cYou don't have permission todo that."
 
 permissions:
-  mining.normal:
+  mining.op:
     default: op

@@ -1,0 +1,27 @@
+# /startを実行した際にTPする場所を設定します.
+setSpawnPoint:
+  world: "world"
+  x: 0.5
+  y: 0.0
+  z: 0.5
+  yaw: 0
+  pitch: 0
+
+# /randomstoneを実行した際に起点となる場所を設定します.
+# 設定した地点からX, Z軸の正の向きにブロックが生成されます.
+setOriginBlock:
+  world: "world"
+  x: 100
+  y: 100
+  z: 100
+
+# /randomstoneを実行した際に生成されるブロックの割合を設定します.
+# 合計が100になるように設定してください.
+setBlockRatio:
+  coal: 50
+  iron: 25
+  gold: 10
+  diamond: 4
+  emerald: 1
+  lapisLazuli: 5
+  redstone: 5
