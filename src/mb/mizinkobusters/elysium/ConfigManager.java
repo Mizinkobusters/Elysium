@@ -5,7 +5,15 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class ConfigManager {
 
-    private String worldName;
+    private String tpWorldName;
+    private Double tpX;
+    private Double tpY;
+    private Double tpZ;
+    private Float tpYaw;
+    private Float tpPitch;
+
+
+    private String originWorldName;
     private Integer originX;
     private Integer originY;
     private Integer originZ;
@@ -19,7 +27,14 @@ public class ConfigManager {
     private Integer ratioRedstone;
 
     public void loadConfig() {
-        worldName = getData("setOriginBlock.world", String.class);
+        tpWorldName = getData("setSpawnPoint.world", String.class);
+        tpX = getData("setSpawnPoint.x", Double.class);
+        tpY = getData("setSpawnPoint.y", Double.class);
+        tpZ = getData("setSpawnPoint.z", Double.class);
+        tpYaw = getData("setSpawnPoint.yaw", Float.class);
+        tpPitch = getData("setSpawnPoint.pitch", Float.class);
+
+        originWorldName = getData("setOriginBlock.world", String.class);
         originX = getData("setOriginBlock.x", Integer.class);
         originY = getData("setOriginBlock.y", Integer.class);
         originZ = getData("setOriginBlock.z", Integer.class);
@@ -47,8 +62,32 @@ public class ConfigManager {
         return null;
     }
 
-    public String getWorldName() {
-        return worldName;
+    public String getTpWorldName() {
+        return tpWorldName;
+    }
+
+    public Double getTpX() {
+        return tpX;
+    }
+
+    public Double getTpY() {
+        return tpY;
+    }
+
+    public Double getTpZ() {
+        return tpZ;
+    }
+
+    public Float getTpYaw() {
+        return tpYaw;
+    }
+
+    public Float getTpPitch() {
+        return tpPitch;
+    }
+
+    public String getOriginWorldName() {
+        return originWorldName;
     }
 
     public Integer getOriginX() {
@@ -90,4 +129,5 @@ public class ConfigManager {
     public Integer getRatioRedstone() {
         return ratioRedstone;
     }
+
 }
