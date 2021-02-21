@@ -5,9 +5,9 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-public class PlayerTeleporter {
+public class PlayerUtils {
 
-    public void teleport(Player player) {
+    public static void teleport(Player player) {
         ConfigManager configManager = Main.getInstance().configManager;
         String worldName = configManager.getTpWorldName();
         World world = Bukkit.getWorld(worldName);

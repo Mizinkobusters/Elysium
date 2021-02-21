@@ -2,7 +2,7 @@ package mb.mizinkobusters.elysium.command;
 
 import mb.mizinkobusters.elysium.BlockGenerator;
 import mb.mizinkobusters.elysium.Main;
-import mb.mizinkobusters.elysium.PlayerTeleporter;
+import mb.mizinkobusters.elysium.PlayerUtils;
 import mb.mizinkobusters.elysium.TimerExecutor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -44,13 +44,12 @@ public class Start implements CommandExecutor {
         meta.setUnbreakable(true);
         tool.setItemMeta(meta);
 
-        PlayerTeleporter teleporter = new PlayerTeleporter();
         Bukkit.getOnlinePlayers().forEach(players -> {
             players.getInventory().addItem(tool);
             players.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 127, false, false));
             players.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 1000000, 127, false, false));
             players.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1000000, 127, false, false));
-            teleporter.teleport(players);
+            PlayerUtils.teleport(players);
         });
 
         BlockGenerator generator = new BlockGenerator();
