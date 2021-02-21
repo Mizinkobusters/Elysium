@@ -15,9 +15,9 @@ public class RankingUtil {
                 .sorted(Comparator.comparing(Player::getExp))
                 .collect(Collectors.toList());
 
-        sortedPlayers.forEach(players -> {
-            if (sortedPlayers.get(0).getExp() > players.getExp()) {
-                sortedPlayers.remove(players.getExp());
+        sortedPlayers.forEach(player -> {
+            if (sortedPlayers.get(0).getExp() > player.getExp()) {
+                sortedPlayers.remove(player);
             }
         });
 
@@ -26,12 +26,11 @@ public class RankingUtil {
 
     public static void showHighestPlayer() {
         List<Player> highestLevelers = getHighestLevelers();
-        List<String> getNames = highestLevelers.stream().map(HumanEntity::getName).collect(Collectors.toList());
-        String[] levelersName = getNames.toArray(new String[highestLevelers.size()]);
+        String[] highestLevelerNames = highestLevelers.stream().map(HumanEntity::getName).toArray(String[]::new);
 
         Bukkit.broadcastMessage("§f-----------");
         Bukkit.broadcastMessage("§c最も経験値が高いプレイヤー");
-        Bukkit.broadcastMessage("§7名前: §a" + String.join(", ", levelersName));
+        Bukkit.broadcastMessage("§7名前: §a" + String.join(", ", highestLevelerNames));
         Bukkit.broadcastMessage("§7レベル: §e" + highestLevelers.get(0).getExp());
         Bukkit.broadcastMessage("§f-----------");
     }
