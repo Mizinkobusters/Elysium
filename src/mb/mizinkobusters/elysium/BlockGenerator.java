@@ -35,7 +35,7 @@ public class BlockGenerator {
         int z2 = z1 + 96;
 
         List<Block> blocks = new ArrayList<>();
-        String worldName = configManager.getWorldName();
+        String worldName = configManager.getOriginWorldName();
         World world = Bukkit.getWorld(worldName);
         if (world == null) {
             Bukkit.getLogger().info("ワールド: " + worldName + "が存在しません");
